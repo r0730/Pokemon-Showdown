@@ -43,7 +43,7 @@ exports.BattleFormatsData = {
 	},
 	metapod: {
 		randomBattleMoves:["stringshot","tackle","harden"],
-		tier: "UU"
+		tier: "LC"
 	},
 	butterfree: {
 		randomBattleMoves: ["psychic","megadrain","sleeppowder","stunspore"],
@@ -55,7 +55,7 @@ exports.BattleFormatsData = {
 	},
 	kakuna: {
 		randomBattleMoves: ["poisonsting","stringshot","harden"],
-		tier: "UU"
+		tier: "LC"
 	},
 	beedrill: {
 		randomBattleMoves: ["twineedle","hyperbeam","swordsdance","agility"],
@@ -591,7 +591,7 @@ exports.BattleFormatsData = {
 	},
 	ditto: {
 		randomBattleMoves: ["transform"],
-		tier: "NU"
+		tier: "LC"
 	},
 	eevee: {
 		randomBattleMoves: ["doubleedge","growl","mimic","reflect","sandattack","tailwhip","toxic"],
