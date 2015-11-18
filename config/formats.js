@@ -107,7 +107,7 @@ exports.Formats = [
 		banlist: ['RU', 'BL3']
 	},
 	{
-		name: "PU",
+		name: "PU (suspect test)",
 		desc: [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3554725/\">np: PU Stage 4</a>",
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3528743/\">PU Viability Ranking</a>"
@@ -158,20 +158,8 @@ exports.Formats = [
 		name: "Battle Spot Singles",
 		desc: [
 			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3527960/\">Battle Spot Singles Metagame Discussion</a>",
-			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3528947/\">Battle Spot Singles Viability Ranking</a>"
+			"&bullet; <a href=\"https://www.smogon.com/forums/threads/3554616/\">Battle Spot Singles Viability Ranking</a>"
 		],
-		section: "ORAS Singles",
-
-		maxForcedLevel: 50,
-		teamLength: {
-			validate: [3, 6],
-			battle: 3
-		},
-		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview'],
-		banlist: []
-	},
-	{
-		name: "Battle Spot Special 12",
 		section: "ORAS Singles",
 
 		maxForcedLevel: 50,
@@ -285,7 +273,8 @@ exports.Formats = [
 		requirePentagon: true
 	},
 	{
-		name: "Battle Spot Doubles",
+		name: "Battle Spot Special 13",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3555571/\">Battle Spot Special Season 13</a>"],
 		section: "ORAS Doubles",
 
 		gameType: 'doubles',
@@ -295,29 +284,14 @@ exports.Formats = [
 			battle: 4
 		},
 		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview'],
-		banlist: []
-	},
-	{
-		name: "Scrappy Skirmish",
-		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3552712/\">Scrappy Skirmish</a>"],
-		section: "ORAS Doubles",
-
-		gameType: 'doubles',
-		maxForcedLevel: 50,
-		teamLength: {
-			validate: [4, 6],
-			battle: 4
-		},
-		ruleset: ['VGC 2015'],
-		banlist: ['Venusaur', 'Charizard', 'Pikachu', 'Pikachu-Cosplay', 'Pikachu-Rock-Star', 'Pikachu-Belle', 'Pikachu-Pop-Star',
-			'Pikachu-PhD', 'Pikachu-Libre', 'Gengar', 'Kangaskhan', 'Jolteon', 'Lanturn', 'Ampharos',
-			'Suicune', 'Tyranitar', 'Ludicolo', 'Gardevoir', 'Mawile', 'Manectric', 'Salamence',
-			'Luxray', 'Garchomp', 'Electivire', 'Rotom', 'Rotom-Heat', 'Rotom-Wash', 'Rotom-Frost',
-			'Rotom-Fan', 'Rotom-Mow', 'Heatran', 'Cresselia', 'Emolga', 'Amoonguss', 'Galvantula',
-			'Eelektross', 'Stunfisk', 'Bisharp', 'Hydreigon', 'Terrakion', 'Thundurus', 'Thundurus-Therian',
-			'Landorus', 'Landorus-Therian', 'Greninja', 'Talonflame', 'Aegislash', 'Heliolisk', 'Sylveon'
-		],
-		requirePentagon: true
+		banlist: ['Tornadus + Defiant', 'Thundurus + Defiant', 'Landorus + Sheer Force'],
+		requirePentagon: true,
+		onValidateSet: function (set) {
+			if (set.item) {
+				var item = this.getItem(set.item);
+				if (item.megaStone) return ["Mega Stones are not permitted."];
+			}
+		}
 	},
 	{
 		name: "Doubles Hackmons Cup",
@@ -382,7 +356,32 @@ exports.Formats = [
 			validate: [6, 6]
 		},
 		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview'],
-		banlist: []
+		banlist: ['Tornadus + Defiant', 'Thundurus + Defiant', 'Landorus + Sheer Force'],
+		requirePentagon: true
+	},
+	{
+		name: "Festive Feud",
+		desc: ["&bullet; <a href=\"https://www.smogon.com/forums/threads/3556178/\">Festive Feud</a>"],
+		section: "ORAS Triples",
+
+		gameType: 'triples',
+		maxForcedLevel: 50,
+		teamLength: {
+			validate: [6, 6]
+		},
+		ruleset: ['Pokemon', 'Standard GBU', 'Team Preview'],
+		banlist: ['Tornadus + Defiant', 'Thundurus + Defiant', 'Landorus + Sheer Force'],
+		requirePentagon: true,
+		onValidateTeam: function (team) {
+			var problems = [];
+			for (let i = 0; i < team.length; i++) {
+				var template = this.getTemplate(team[i].species);
+				if (template.color !== 'Red' && template.color !== 'Green' && template.color !== 'White') {
+					problems.push(template.species);
+				}
+			}
+			if (problems.length) return ["Only red, green and white Pok\u00E9mon are permitted.", "(You have " + problems.join(', ') + ")"];
+		}
 	},
 	{
 		name: "Triples Hackmons Cup",
@@ -422,7 +421,7 @@ exports.Formats = [
 		ruleset: ['Pokemon', 'Species Clause', 'Moody Clause', 'Baton Pass Clause', 'Evasion Moves Clause', 'OHKO Clause',
 			'Swagger Clause', 'Endless Battle Clause', 'Team Preview', 'HP Percentage Mod', 'Sleep Clause Mod', 'Cancel Mod'
 		],
-		banlist: ['Unreleased', 'Illegal', 'Assist'],
+		banlist: ['Unreleased', 'Illegal', 'Assist', 'Chatter'],
 		customBans: {
 			receiver: {
 				arceus:1, archeops:1, darkrai:1, deoxys:1, deoxysattack:1, deoxysspeed:1, dialga:1, giratina:1, giratinaorigin:1,
@@ -446,7 +445,7 @@ exports.Formats = [
 				for (let key in pokemon.abilities) {
 					let abilityId = toId(pokemon.abilities[key]);
 					if (abilityMap[abilityId]) {
-						abilityMap[abilityId].push(speciesid);
+						abilityMap[abilityId][pokemon.evos ? 'push' : 'unshift'](speciesid);
 					} else {
 						abilityMap[abilityId] = [speciesid];
 					}
@@ -508,6 +507,7 @@ exports.Formats = [
 			let pokemonWithAbility = this.format.abilityMap[abilityId];
 			if (!pokemonWithAbility) return ["" + set.ability + " is an invalid ability."];
 			let isBaseAbility = Object.values(template.abilities).map(toId).indexOf(abilityId) >= 0;
+			if (!isBaseAbility && abilityId in this.format.customBans.inheritedAbilities) return ["" + set.ability + " is banned from being passed down."];
 
 			// Items must be fully validated here since we may pass a different item to the base set validator.
 			let item = this.tools.getItem(set.item);
@@ -533,7 +533,7 @@ exports.Formats = [
 				if (donorTemplate.species !== set.species && toId(donorTemplate.species) in this.format.customBans.donor) {
 					problems = ["" + donorTemplate.species + " is banned from passing abilities down."];
 					continue;
-				} else if (donorTemplate.species !== set.species && !isBaseAbility && abilityId in this.format.customBans.inheritedAbilities) {
+				} else if (donorTemplate.species !== set.species && abilityId in this.format.customBans.inheritedAbilities) {
 					problems = ["The ability " + this.tools.getAbility(abilityId).name + " is banned from being passed down."];
 					continue;
 				}
